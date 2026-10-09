@@ -1,0 +1,59 @@
+name: Release
+
+# Push a version tag on main to publish a release:
+#   git tag v0.2.0 && git push origin v0.2.0
+# The version is injected from the tag; release notes come from the matching
+# "= x.y.z =" section of readme.txt. Production sites see the update in
+# WordPress (Plugin Update Checker).
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  checks:
+    uses: ./.github/workflows/ci.yml
+
+  release:
+    name: Build & publish release
+    needs: checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          tools: composer
+
+      - name: Version from tag
+        id: version
+        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Check the changelog has an entry for this version
+        run: grep -q "^= ${{ steps.version.outputs.VERSION }} =" readme.txt
+
+      - name: Build zip
+        run: bash tools/build-zip.sh "${{ steps.version.outputs.VERSION }}"
+
+      - name: Release notes from readme.txt
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+          {
+            echo "## What's new in ${VERSION}"
+            echo
+            awk "/^= ${VERSION} =/{found=1;next} found && /^= /{exit} found && NF{print}" readme.txt
+            echo
+            echo "Install: WordPress → Plugins → Add New → Upload Plugin, or update from the Plugins screen."
+          } > build/release-notes.md
+
+      - name: Publish GitHub release
+        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2.6.2
+        with:
+          name: Papounan Site ${{ steps.version.outputs.VERSION }}
+          body_path: build/release-notes.md
+          files: build/papounan-site.zip
+          prerelease: false
+          make_latest: true

@@ -1,0 +1,24 @@
+# Files and folders excluded from the plugin zip (read by tools/build-zip.sh).
+.git
+.github
+.gitignore
+.distignore
+.DS_Store
+.claude
+.vscode
+CLAUDE.md
+README.md
+composer.json
+composer.lock
+package.json
+package-lock.json
+eslint.config.js
+.stylelintrc.json
+phpcs.xml
+phpstan.neon
+node_modules
+vendor
+design-system
+tools
+*.zip
+build

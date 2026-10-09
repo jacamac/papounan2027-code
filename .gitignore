@@ -1,3 +1,11 @@
+# Dependencies (lock files are committed for reproducible CI builds)
+vendor/
+node_modules/
+
+# Build output
+build/
+*.zip
+
 # OS / editors
 .DS_Store
 Thumbs.db
@@ -7,8 +15,3 @@ Thumbs.db
 # VS Code: keep shared settings, never commit SFTP credentials or local stubs
 .vscode/sftp.json
 .vscode/*stubs*.php
-
-# Dependencies and build output
-node_modules/
-vendor/
-*.zip

@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<ruleset name="Papounan Site">
+	<description>WordPress coding standards for the Papounan Site plugin.</description>
+
+	<file>papounan-site.php</file>
+	<file>includes/</file>
+	<file>modules/</file>
+
+	<exclude-pattern>vendor/</exclude-pattern>
+	<exclude-pattern>node_modules/</exclude-pattern>
+	<exclude-pattern>*.js</exclude-pattern>
+	<exclude-pattern>*.css</exclude-pattern>
+
+	<!-- WordPress-Extra: escaping, nonces, SQL preparation on top of the core rules. -->
+	<rule ref="WordPress-Extra"/>
+
+	<!-- PHP 7.4+ compatibility, WordPress-aware. -->
+	<rule ref="PHPCompatibilityWP"/>
+	<config name="testVersion" value="7.4-"/>
+	<config name="minimum_wp_version" value="6.6"/>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" type="array">
+				<element value="papounan-site"/>
+			</property>
+		</properties>
+	</rule>
+
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties>
+			<property name="prefixes" type="array">
+				<element value="papounan_site"/>
+				<element value="papounan_gallery"/>
+				<element value="PAPOUNAN"/>
+			</property>
+		</properties>
+	</rule>
+
+	<arg name="colors"/>
+	<arg value="sp"/>
+</ruleset>
