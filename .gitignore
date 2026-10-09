@@ -1,0 +1,14 @@
+# OS / editors
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# VS Code: keep shared settings, never commit SFTP credentials or local stubs
+.vscode/sftp.json
+.vscode/*stubs*.php
+
+# Dependencies and build output
+node_modules/
+vendor/
+*.zip

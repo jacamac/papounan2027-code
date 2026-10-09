@@ -1,0 +1,284 @@
+/* papounan-design-system.css: CrocoBuilder common styles (generated). */
+/* Source: papounan2027-builder/crocoblock-builder/globals/common-styles.json */
+/* Do not edit by hand: change them in CrocoBuilder, commit, then regenerate. */
+
+body {
+	background-color: var(--color-surface);
+	color: var(--color-ink);
+	font-family: var(--font-body);
+	font-size: var(--text-body);
+	font-weight: var(--font-weight-regular);
+	line-height: var(--leading-body);
+	margin: 0;
+}
+
+h1 {
+	color: var(--color-ink);
+	font-family: var(--font-heading);
+	font-size: var(--text-h1);
+	font-weight: var(--font-weight-bold);
+	line-height: var(--leading-h1);
+	margin: 0 0 var(--space-s);
+	text-wrap: balance;
+}
+
+h2 {
+	color: var(--color-ink);
+	font-family: var(--font-heading);
+	font-size: var(--text-h2);
+	font-weight: var(--font-weight-semibold);
+	line-height: var(--leading-h2);
+	margin: 0 0 var(--space-s);
+	text-wrap: balance;
+}
+
+h3 {
+	color: var(--color-neutral-700);
+	font-family: var(--font-heading);
+	font-size: var(--text-h3);
+	font-weight: var(--font-weight-semibold);
+	line-height: var(--leading-h3);
+	margin: 0 0 var(--space-s);
+	text-wrap: balance;
+}
+
+h4 {
+	color: var(--color-ink);
+	font-family: var(--font-heading);
+	font-size: var(--text-h3);
+	font-weight: var(--font-weight-semibold);
+	line-height: var(--leading-h3);
+	margin: 0 0 var(--space-s);
+	text-wrap: balance;
+}
+
+p {
+	margin: 0 0 var(--space-xs);
+}
+
+ul {
+	margin: 0 0 var(--space-xs);
+}
+
+ol {
+	margin: 0 0 var(--space-xs);
+}
+
+a {
+	color: var(--color-accent-strong);
+	text-decoration: underline;
+	text-underline-offset: 0.15em;
+	transition: color var(--transition-base);
+}
+
+a:hover {
+	color: var(--color-ink);
+}
+
+strong {
+	color: inherit;
+	font-weight: var(--font-weight-bold);
+}
+
+b {
+	color: inherit;
+	font-weight: var(--font-weight-bold);
+}
+
+.accordion__item > .accordion__summary::-webkit-details-marker {
+	display: none;
+}
+
+.accordion__item[open] > .accordion__summary {
+	background-color: var(--color-surface-alt);
+}
+
+.accordion__item[open] .accordion__title {
+	color: var(--color-ink);
+}
+
+.accordion__item:not([open]) .accordion__icon {
+	transform: rotate(-90deg);
+}
+
+.gallery__item:hover .gallery__caption {
+	opacity: 1;
+}
+
+.gallery__item:focus-within .gallery__caption {
+	opacity: 1;
+}
+
+.post-card .post-card__link::after {
+	border-radius: var(--radius-md);
+	content: "";
+	inset: 0;
+	position: absolute;
+}
+
+.post-card:hover .post-card__title {
+	color: var(--color-ink);
+}
+
+/* Sticky header location */
+.crocoblocks-theme-builder-location--header-location {
+	--masthead-brand-height: calc(clamp(12.5rem, 9.684rem + 12.019vw, 20.5rem) * 0.17 + var(--space-xs));
+	position: sticky;
+	top: calc(var(--masthead-brand-height) * -1);
+	z-index: 50;
+}
+
+.site-nav .pb-nav__link {
+	align-items: center;
+	color: var(--color-ink);
+	display: inline-flex;
+	font-family: var(--font-body);
+	font-size: var(--text-small);
+	padding: var(--space-2xs) var(--space-s);
+	text-decoration: none;
+	transition: color var(--transition-base);
+}
+
+.site-nav .pb-nav__link:hover {
+	color: var(--color-accent);
+}
+
+.site-nav .pb-nav__submenu {
+	background-color: var(--color-surface);
+	border-radius: var(--radius-md);
+	box-shadow: var(--shadow-card);
+	padding: var(--space-2xs) 0;
+}
+
+.site-nav .pb-nav__list {
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.site-nav .pb-nav__link[aria-current="page"] {
+	box-shadow: inset 0 -3px 0 var(--color-accent);
+}
+
+/* Mobile menu toggle (button) */
+.masthead .site-nav.is-collapsed .pb-nav__collapse-toggle {
+	background-color: var(--color-ink);
+	border-radius: var(--radius-md);
+	color: var(--color-ink-inverse);
+	cursor: pointer;
+	flex-direction: row-reverse;
+	font-family: var(--font-body);
+	font-size: var(--text-small);
+	gap: var(--space-2xs);
+	line-height: 1;
+	padding: var(--space-xs);
+	transition: background-color var(--transition-base);
+}
+
+/* Mobile menu toggle hover */
+.masthead .site-nav.is-collapsed .pb-nav__collapse-toggle:hover {
+	background-color: var(--color-accent-strong);
+}
+
+/* Mobile menu toggle icon */
+.masthead .site-nav.is-collapsed .pb-nav__collapse-icon svg {
+	display: block;
+	height: 20px;
+	width: 20px;
+}
+
+/* Mobile panel from the right (closed) */
+.masthead .site-nav.is-collapsed .pb-nav__mobile-panel {
+	background-color: var(--color-surface-muted);
+	box-shadow: var(--shadow-card);
+	box-sizing: border-box;
+	left: auto;
+	padding: var(--space-2xl, 4rem) var(--space-m) var(--space-m);
+	right: 0;
+	transform: translateX(100%);
+}
+
+/* Mobile panel open */
+.masthead .site-nav.is-collapsed.is-open .pb-nav__mobile-panel {
+	transform: translateX(0);
+}
+
+/* Mobile panel close button */
+.masthead .site-nav.is-collapsed .pb-nav__mobile-close {
+	color: var(--color-ink);
+	cursor: pointer;
+	font-size: 2rem;
+	height: 2.75rem;
+	line-height: 1;
+	right: var(--space-s);
+	top: var(--space-s);
+	width: 2.75rem;
+}
+
+/* Mobile panel links */
+.masthead .site-nav.is-collapsed .pb-nav__mobile-panel .pb-nav__link {
+	font-size: var(--text-large);
+	padding: var(--space-xs) 0;
+}
+
+/* Masthead bar icons (never shrink) */
+.masthead__bar svg {
+	flex-shrink: 0;
+	height: 1.25rem;
+	width: 1.25rem;
+}
+
+/* Mobile menu toggle icon wrapper */
+.masthead .site-nav .pb-nav__collapse-icon {
+	flex-shrink: 0;
+}
+
+/* Compact bar when menu collapsed: gap */
+.masthead__bar:has(.site-nav.is-collapsed) {
+	gap: var(--space-2xs);
+}
+
+/* Compact bar when menu collapsed: CTA */
+.masthead__bar:has(.site-nav.is-collapsed) .masthead__cta {
+	font-size: var(--text-small);
+	padding-left: var(--space-xs);
+	padding-right: var(--space-xs);
+}
+
+/* Mobile panel below WP admin bar (logged-in only) */
+.admin-bar .masthead .site-nav.is-collapsed .pb-nav__mobile-panel {
+	height: calc(100vh - 46px);
+	top: 46px;
+}
+
+.layout-switcher > * {
+	flex-basis: calc((var(--switcher-threshold, 34rem) - 100%) * 999);
+	flex-grow: 1;
+	max-width: var(--switcher-item-max, 18rem);
+	min-width: 0;
+}
+
+/* rating-badge note reveal */
+.rating-badge__score:hover .rating-badge__note, .rating-badge__score:focus .rating-badge__note {
+	opacity: 1;
+	visibility: visible;
+}
+
+/* rating-badge note empty */
+.rating-badge__note:empty {
+	display: none;
+}
+
+/* rating-badge plain count hidden */
+.rating-badge .rating-badge__plain {
+	display: none;
+}
+
+/* rating-badge no URL: hide link */
+.rating-badge .rating-badge__link[href=""] {
+	display: none;
+}
+
+/* rating-badge no URL: show plain count */
+.rating-badge .rating-badge__link[href=""] + .rating-badge__plain {
+	display: block;
+}
