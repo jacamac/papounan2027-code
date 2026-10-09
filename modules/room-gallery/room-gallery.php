@@ -23,7 +23,7 @@ const PAPOUNAN_GALLERY_COLUMNS = 12;
 /**
  * Register assets and the shortcode.
  */
-function papounan_gallery_init() {
+function papounan_gallery_init(): void {
 	$base = PAPOUNAN_SITE_URL . 'modules/room-gallery/';
 
 	wp_register_style( 'papounan-room-gallery', $base . 'room-gallery.css', array(), PAPOUNAN_SITE_VERSION );
@@ -46,7 +46,7 @@ add_action( 'init', 'papounan_gallery_init' );
  * Enqueue the stylesheet in <head> on room pages, so the gallery is styled
  * from the first paint (the shortcode also enqueues it, as a fallback).
  */
-function papounan_gallery_enqueue_on_rooms() {
+function papounan_gallery_enqueue_on_rooms(): void {
 	if ( is_singular( 'chambre' ) ) {
 		wp_enqueue_style( 'papounan-room-gallery' );
 	}
