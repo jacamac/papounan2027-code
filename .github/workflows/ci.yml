@@ -22,7 +22,7 @@ jobs:
           php-version: '8.1'
           tools: composer, cs2pr
 
-      - uses: actions/cache@v4
+      - uses: actions/cache@v6
         with:
           path: vendor
           key: ${{ runner.os }}-composer-${{ hashFiles('composer.json', 'composer.lock') }}
