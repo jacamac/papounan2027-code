@@ -1,0 +1,43 @@
+name: Dev Release
+
+# Every push to development: run CI, then build papounan-site.zip and attach it
+# to the rolling "dev-latest" pre-release. The dev site follows it when
+# wp-config.php has: define( 'PAPOUNAN_SITE_UPDATE_CHANNEL', 'development' );
+on:
+  push:
+    branches: [development]
+
+permissions:
+  contents: write
+
+jobs:
+  checks:
+    uses: ./.github/workflows/ci.yml
+
+  release:
+    name: Build & publish dev-latest
+    needs: checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          tools: composer
+
+      - name: Build zip
+        run: bash tools/build-zip.sh
+
+      - name: Update dev-latest pre-release
+        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2.6.2
+        with:
+          tag_name: dev-latest
+          name: Development build (latest)
+          prerelease: true
+          make_latest: false
+          files: build/papounan-site.zip
+          body: |
+            Automated development build, **not for production**.
+
+            Branch: `development` · Commit: `${{ github.sha }}`

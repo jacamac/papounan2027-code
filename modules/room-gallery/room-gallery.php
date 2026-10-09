@@ -23,7 +23,7 @@ const PAPOUNAN_GALLERY_COLUMNS = 12;
 /**
  * Register assets and the shortcode.
  */
-function papounan_gallery_init() {
+function papounan_gallery_init(): void {
 	$base = PAPOUNAN_SITE_URL . 'modules/room-gallery/';
 
 	wp_register_style( 'papounan-room-gallery', $base . 'room-gallery.css', array(), PAPOUNAN_SITE_VERSION );
@@ -46,7 +46,7 @@ add_action( 'init', 'papounan_gallery_init' );
  * Enqueue the stylesheet in <head> on room pages, so the gallery is styled
  * from the first paint (the shortcode also enqueues it, as a fallback).
  */
-function papounan_gallery_enqueue_on_rooms() {
+function papounan_gallery_enqueue_on_rooms(): void {
 	if ( is_singular( 'chambre' ) ) {
 		wp_enqueue_style( 'papounan-room-gallery' );
 	}
@@ -56,7 +56,7 @@ add_action( 'wp_enqueue_scripts', 'papounan_gallery_enqueue_on_rooms' );
 /**
  * Shortcode callback.
  *
- * @param array|string $atts Shortcode attributes.
+ * @param array<string, string>|string $atts Shortcode attributes.
  * @return string Gallery HTML, or an admin-only notice.
  */
 function papounan_gallery_shortcode( $atts ) {
@@ -103,10 +103,10 @@ function papounan_gallery_shortcode( $atts ) {
 /**
  * Build the gallery markup.
  *
- * @param array $rows     ACF repeater rows.
- * @param int   $post_id  Room ID.
- * @param array $atts     Sanitised shortcode attributes.
- * @param bool  $lightbox Whether to add lightbox links and the dialog.
+ * @param array<int, array<string, mixed>> $rows     ACF repeater rows.
+ * @param int                              $post_id  Room ID.
+ * @param array<string, string>            $atts     Sanitised shortcode attributes.
+ * @param bool                             $lightbox Whether to add lightbox links and the dialog.
  * @return string HTML.
  */
 function papounan_gallery_render( array $rows, $post_id, array $atts, $lightbox ) {
@@ -124,8 +124,9 @@ function papounan_gallery_render( array $rows, $post_id, array $atts, $lightbox 
 			continue;
 		}
 
-		$col_span = max( 1, min( absint( $row['col_span'] ?? 0 ) ?: PAPOUNAN_GALLERY_COLUMNS, PAPOUNAN_GALLERY_COLUMNS ) );
-		$row_span = max( 1, min( absint( $row['row_span'] ?? 0 ) ?: 1, 4 ) );
+		$col_span = absint( $row['col_span'] ?? 0 );
+		$col_span = $col_span > 0 ? min( $col_span, PAPOUNAN_GALLERY_COLUMNS ) : PAPOUNAN_GALLERY_COLUMNS;
+		$row_span = max( 1, min( absint( $row['row_span'] ?? 1 ), 4 ) );
 
 		$alt = trim( (string) get_post_meta( $image_id, '_wp_attachment_image_alt', true ) );
 		if ( '' === $alt ) {
