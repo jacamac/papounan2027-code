@@ -4,7 +4,7 @@ Tags: chateaupapounan
 Requires at least: 6.6
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 0.1.2
+Stable tag: 0.1.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,13 +15,15 @@ Site-specific features for chateaupapounan.fr (Château Papounan, Saint-Estèphe
 Modules (one folder each in modules/):
 
 * Room gallery — [room_gallery] shortcode: the room's ACF "pictures" repeater as a 12-column grid with a native lightbox.
-* SEO schema — fills the empty `image` of SEOPress PRO automatic schemas (`%%post_thumbnail_url%%`) from the featured image on singular views.
 
 Updates are delivered from GitHub Releases (Plugin Update Checker). A dev site can follow the development branch with:
 
   define( 'PAPOUNAN_SITE_UPDATE_CHANNEL', 'development' );
 
 == Changelog ==
+
+= 0.1.3 =
+* Remove: seo-schema module. Room schema image fixed in SEOPress schema settings instead.
 
 = 0.1.2 =
 * New: seo-schema module: fills empty %%post_thumbnail_url%% in SEOPress automatic schemas.
