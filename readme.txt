@@ -15,12 +15,16 @@ Site-specific features for chateaupapounan.fr (Château Papounan, Saint-Estèphe
 Modules (one folder each in modules/):
 
 * Room gallery — [room_gallery] shortcode: the room's ACF "pictures" repeater as a 12-column grid with a native lightbox.
+* SEO schema — fills the empty `image` of SEOPress PRO automatic schemas (`%%post_thumbnail_url%%`) from the featured image on singular views.
 
 Updates are delivered from GitHub Releases (Plugin Update Checker). A dev site can follow the development branch with:
 
   define( 'PAPOUNAN_SITE_UPDATE_CHANNEL', 'development' );
 
 == Changelog ==
+
+= 0.1.1 =
+* New: seo-schema module: fixes the empty `image` in SEOPress PRO automatic schema #4139 (HotelRoom, `chambre`) by filling `%%post_thumbnail_url%%` from the featured image on singular views.
 
 = 0.1.0 =
 * New: room gallery module ([room_gallery]) ported from the hello-elementor-child theme: no Elementor dependency, design-system tokens, native <dialog> lightbox with keyboard navigation, one photo per row on mobile.
