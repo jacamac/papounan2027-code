@@ -4,7 +4,7 @@ Tags: chateaupapounan
 Requires at least: 6.6
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 0.1.0
+Stable tag: 0.1.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,6 +22,10 @@ Updates are delivered from GitHub Releases (Plugin Update Checker). A dev site c
   define( 'PAPOUNAN_SITE_UPDATE_CHANNEL', 'development' );
 
 == Changelog ==
+
+= 0.1.2 =
+* New: seo-schema module: fills empty %%post_thumbnail_url%% in SEOPress automatic schemas.
+* Fix: version in source. The plugin header, PAPOUNAN_SITE_VERSION and Stable tag now match the release, so the update checker (which reads the header at the tag) sees new releases.
 
 = 0.1.1 =
 * New: seo-schema module: fixes the empty `image` in SEOPress PRO automatic schema #4139 (HotelRoom, `chambre`) by filling `%%post_thumbnail_url%%` from the featured image on singular views.

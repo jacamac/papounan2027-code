@@ -32,6 +32,21 @@ jobs:
         id: version
         run: echo "VERSION=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
 
+      - name: Check the source version matches the tag
+        run: |
+          VERSION="${{ steps.version.outputs.VERSION }}"
+          header=$(sed -n 's/^ \* Version: *//p' papounan-site.php | head -n1 | tr -d '[:space:]')
+          const=$(sed -n "s/.*'PAPOUNAN_SITE_VERSION', *'\([^']*\)'.*/\1/p" papounan-site.php | head -n1)
+          stable=$(sed -n 's/^Stable tag: *//p' readme.txt | head -n1 | tr -d '[:space:]')
+          status=0
+          for pair in "Version header=${header}" "PAPOUNAN_SITE_VERSION=${const}" "Stable tag=${stable}"; do
+            if [ "${pair#*=}" != "$VERSION" ]; then
+              echo "::error::${pair%%=*} is '${pair#*=}' but the tag is v${VERSION}. Run tools/bump-version.sh ${VERSION}, commit, then re-tag."
+              status=1
+            fi
+          done
+          exit "$status"
+
       - name: Check the changelog has an entry for this version
         run: grep -q "^= ${{ steps.version.outputs.VERSION }} =" readme.txt
 

@@ -4,7 +4,7 @@ Site plugin for chateaupapounan.fr (WordPress + CrocoBuilder + ACF PRO). Owner: 
 
 ## Ground rules
 - Distinguish what you know, infer and assume. Never invent WordPress/ACF/CrocoBuilder APIs; say what to verify.
-- Jacques commits, merges and tags. Work on `development`; never push to `main`, never create tags.
+- Work on `development`. Commit, merge, push and tag only when Jacques explicitly asks; otherwise leave them to him and show the diff with a proposed commit message. An explicit request covers that action only.
 - Never edit files on the server; everything goes through this repo and a release.
 
 ## Structure
@@ -22,5 +22,5 @@ Site plugin for chateaupapounan.fr (WordPress + CrocoBuilder + ACF PRO). Owner: 
 
 ## Before proposing a change
 - `composer lint` and `npm run lint` pass.
-- Bump nothing by hand for releases (the tag sets the version), but add a `= X.Y.Z =` changelog entry in `readme.txt`.
+- For releases, run `tools/bump-version.sh X.Y.Z` (header, `PAPOUNAN_SITE_VERSION` and `Stable tag` must equal the tag, or the Release workflow fails) and add a `= X.Y.Z =` changelog entry in `readme.txt`.
 - Update README.md when a module or attribute changes.
