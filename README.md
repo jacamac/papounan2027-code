@@ -12,6 +12,10 @@ Related repos: **papounan2027-theme** (minimal theme) and **papounan2027-builder
 
 Still to port from the old child theme (`papounan-widgets`): `chambre-booking`, `chateau-distance`, the TranslatePress capability filter, and a decision on `update-thumbnail`.
 
+## Translations
+
+The plugin loads the `papounan-site` text domain from `languages/` (header `Domain Path: /languages`). French is shipped as `papounan-site-fr_FR.po` and `.mo`; recompile the `.mo` after editing the `.po`.
+
 ### `[room_gallery]`
 
 Place it in a CrocoBuilder **Text** element with "Process shortcodes on frontend" enabled (room template "Chambre – corps").
