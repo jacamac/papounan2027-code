@@ -35,3 +35,4 @@ require_once PAPOUNAN_SITE_DIR . 'includes/updates.php';
  * assets only where it is used. Add new modules to this list.
  */
 require_once PAPOUNAN_SITE_DIR . 'modules/room-gallery/room-gallery.php';
+require_once PAPOUNAN_SITE_DIR . 'modules/seo-schema/seo-schema.php';
