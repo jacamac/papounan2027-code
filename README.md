@@ -9,7 +9,6 @@ Related repos: **papounan2027-theme** (minimal theme) and **papounan2027-builder
 | Module | Provides | Notes |
 |---|---|---|
 | `room-gallery` | `[room_gallery]` | ACF repeater `pictures` (`picture`, `col_span`, `row_span`) as a 12-column grid; native `<dialog>` lightbox; one photo per row on mobile |
-| `seo-schema` | filter only | Fills the empty `%%post_thumbnail_url%%` in SEOPress PRO automatic schemas (e.g. HotelRoom #4139 on `chambre`) from the featured image on singular views; never overrides a value SEOPress resolved |
 
 Still to port from the old child theme (`papounan-widgets`): `chambre-booking`, `chateau-distance`, the TranslatePress capability filter, and a decision on `update-thumbnail`.
 
