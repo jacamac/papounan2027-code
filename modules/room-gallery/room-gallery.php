@@ -204,7 +204,7 @@ function papounan_gallery_dialog( $gallery_id ) {
 			<button type="button" class="room-gallery__close" data-action="close" aria-label="%3$s">&times;</button>
 			<button type="button" class="room-gallery__nav room-gallery__nav--prev" data-action="prev" aria-label="%4$s">&#8249;</button>
 			<figure class="room-gallery__stage">
-				<img class="room-gallery__full" src="" alt="">
+				<img class="room-gallery__full" alt="">
 				<figcaption class="room-gallery__counter" aria-live="polite"></figcaption>
 			</figure>
 			<button type="button" class="room-gallery__nav room-gallery__nav--next" data-action="next" aria-label="%5$s">&#8250;</button>

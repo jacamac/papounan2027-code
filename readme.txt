@@ -4,7 +4,7 @@ Tags: chateaupapounan
 Requires at least: 6.6
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 0.1.4
+Stable tag: 0.1.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,6 +21,9 @@ Updates are delivered from GitHub Releases (Plugin Update Checker). A dev site c
   define( 'PAPOUNAN_SITE_UPDATE_CHANNEL', 'development' );
 
 == Changelog ==
+
+= 0.1.5 =
+* Fix: room gallery lightbox no longer outputs an empty src="" on its image (invalid HTML flagged by SEO audits); room-gallery.js sets it when the lightbox opens.
 
 = 0.1.4 =
 * New: translation support. Loads the papounan-site text domain from /languages and ships the French (fr_FR) .po/.mo files.
