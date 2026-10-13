@@ -282,3 +282,48 @@ b {
 .rating-badge .rating-badge__link[href=""] + .rating-badge__plain {
 	display: block;
 }
+
+/* entry-content gallery */
+.entry-content .wp-block-gallery.wp-block-gallery {
+	display: grid;
+	gap: var(--space-xs);
+	grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr));
+	margin: var(--space-m) 0;
+}
+
+/* entry-content gallery image */
+.entry-content .wp-block-gallery.has-nested-images figure.wp-block-image:not(#individual-image) {
+	aspect-ratio: 4 / 3;
+	border-radius: var(--radius-md);
+	margin: 0;
+	overflow: hidden;
+	width: 100% !important;
+}
+
+/* entry-content gallery img */
+.entry-content .wp-block-gallery.wp-block-gallery > .wp-block-image img {
+	display: block;
+	height: 100%;
+	object-fit: cover;
+	transition: transform var(--transition-base);
+	width: 100%;
+}
+
+/* entry-content media */
+.entry-content > .wp-block-image img, .entry-content .wp-block-video video {
+	border-radius: var(--radius-md);
+	display: block;
+	height: auto;
+	width: 100%;
+}
+
+/* photo-mosaic--staggered wide */
+.photo-mosaic--staggered > :nth-child(4n+2), .photo-mosaic--staggered > :nth-child(4n+3) {
+	aspect-ratio: 4 / 3;
+	grid-column: span 2;
+}
+
+/* photo-mosaic--staggered narrow */
+.photo-mosaic--staggered > :nth-child(4n+1), .photo-mosaic--staggered > :nth-child(4n+4) {
+	aspect-ratio: auto;
+}
