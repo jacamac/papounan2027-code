@@ -9,6 +9,7 @@ Related repos: **papounan2027-theme** (minimal theme) and **papounan2027-builder
 | Module | Provides | Notes |
 |---|---|---|
 | `room-gallery` | `[room_gallery]` | ACF repeater `pictures` (`picture`, `col_span`, `row_span`) as a 12-column grid; native `<dialog>` lightbox; one photo per row on mobile |
+| `language-switcher` | filter on `[language-switcher]` | TranslatePress flags: `alt` = language name + `lang`, `role` removed; name span `aria-hidden`. Language list in `papounan_langsw_languages()` — update when a language is added |
 
 Still to port from the old child theme (`papounan-widgets`): `chambre-booking`, `chateau-distance`, the TranslatePress capability filter, and a decision on `update-thumbnail`.
 
