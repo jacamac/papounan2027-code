@@ -4,7 +4,7 @@ Tags: chateaupapounan
 Requires at least: 6.6
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 0.1.5
+Stable tag: 0.1.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,12 +15,16 @@ Site-specific features for chateaupapounan.fr (Château Papounan, Saint-Estèphe
 Modules (one folder each in modules/):
 
 * Room gallery — [room_gallery] shortcode: the room's ACF "pictures" repeater as a 12-column grid with a native lightbox.
+* Language switcher — gives the TranslatePress flags a real alt (the language name) and hides the duplicate name from screen readers.
 
 Updates are delivered from GitHub Releases (Plugin Update Checker). A dev site can follow the development branch with:
 
   define( 'PAPOUNAN_SITE_UPDATE_CHANNEL', 'development' );
 
 == Changelog ==
+
+= 0.1.6 =
+* New: language-switcher module. TranslatePress flags in [language-switcher] get alt = language name (with lang) instead of alt="" role="presentation", and the visible name is aria-hidden, so screen readers hear it once. Clears SEOPress's "no alt text" warning on every page.
 
 = 0.1.5 =
 * Fix: room gallery lightbox no longer outputs an empty src="" on its image (invalid HTML flagged by SEO audits); room-gallery.js sets it when the lightbox opens.

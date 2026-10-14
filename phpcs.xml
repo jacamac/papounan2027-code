@@ -32,6 +32,7 @@
 			<property name="prefixes" type="array">
 				<element value="papounan_site"/>
 				<element value="papounan_gallery"/>
+				<element value="papounan_langsw"/>
 				<element value="PAPOUNAN"/>
 			</property>
 		</properties>
