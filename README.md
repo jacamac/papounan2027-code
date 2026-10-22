@@ -10,6 +10,7 @@ Related repos: **papounan2027-theme** (minimal theme) and **papounan2027-builder
 |---|---|---|
 | `room-gallery` | `[room_gallery]` | ACF repeater `pictures` (`picture`, `col_span`, `row_span`) as a 12-column grid; native `<dialog>` lightbox; one photo per row on mobile |
 | `language-switcher` | filter on `[language-switcher]` | TranslatePress flags: `alt` = language name + `lang`, `role` removed; name span `aria-hidden`. Language list in `papounan_langsw_languages()` — update when a language is added |
+| `click-tracking` | `data-trk` attributes → Matomo events | One deferred script on every front-end page; body class `papounan-room-<slug>` on room pages. See below |
 
 Still to port from the old child theme (`papounan-widgets`): `chambre-booking`, `chateau-distance`, the TranslatePress capability filter, and a decision on `update-thumbnail`.
 
@@ -30,6 +31,40 @@ Place it in a CrocoBuilder **Text** element with "Process shortcodes on frontend
 | `field` | `pictures` | ACF repeater name |
 
 Lightbox: native `<dialog>` (focus trap and Esc handled by the browser), previous/next buttons and arrow keys, click outside closes, focus returns to the thumbnail. Without JavaScript the links open the full image.
+
+### Click tracking (`data-trk`)
+
+**The rule:** in CrocoBuilder a trackable element only carries an attribute; the logic lives in this plugin (`modules/click-tracking/`). No JS in the builder, no list of buttons in the plugin.
+
+```html
+<a href="/booking/?room_id=621164" data-trk="prix">Réserver Chambre Domeyne</a>
+```
+
+**Event** (on click, Ctrl/Cmd-click, or middle-click):
+
+| | |
+|---|---|
+| Category | `Navigation` (separate from the booking engine's `Réservation`) |
+| Action | the element's `data-trk-action`, else `vers-reservation` |
+| Name | `<data-trk> · <room slug>` on a room page (`prix · chambre-domeyne`), `<data-trk>` alone elsewhere |
+| Value | none |
+
+The room slug is the room's `post_name`, output by PHP as the body class `papounan-room-<slug>` on single `chambre` pages: the same in every language (`/en/rooms/…`, `/de/zimmer/…` are the same post) and the same value the booking engine sends in `chambre-demandee` and `resultat` (e.g. `suite-l-estuaire`), so both can be matched in segments.
+
+**Placements in use:**
+
+| `data-trk` | Page | Placement |
+|---|---|---|
+| `intro` | room pages (template 7) | secondary button after the « Pourquoi choisir » list |
+| `prix` | room pages (template 7) | main button under the price |
+| `calendrier` | room pages | not an attribute: the availability calendar's `bac:book` event (bookable day clicked) |
+| `header` | every page | planned: header « Réserver en direct » button |
+
+**Add one:** in CrocoBuilder, give the element the attribute `data-trk` with a new name (only `a-z`, `0-9`, `-`; anything else is ignored), and `data-trk-action` if it isn't a link to the booking page. Add it to the table above. Nothing to change in the plugin.
+
+Safeguards: the script never prevents or delays the navigation (Matomo sends the event with `sendBeacon`), does nothing when Matomo is blocked or not loaded (`window._paq` missing), and never throws.
+
+**Debug:** `localStorage['pap.analytics.debug'] = '1'` (same switch as the booking engine) prints each event with `console.debug('[papounan tracking]', …)`.
 
 ## Releases and updates
 

@@ -4,7 +4,7 @@ Tags: chateaupapounan
 Requires at least: 6.6
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 0.1.6
+Stable tag: 0.1.7
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -16,12 +16,16 @@ Modules (one folder each in modules/):
 
 * Room gallery — [room_gallery] shortcode: the room's ACF "pictures" repeater as a 12-column grid with a native lightbox.
 * Language switcher — gives the TranslatePress flags a real alt (the language name) and hides the duplicate name from screen readers.
+* Click tracking — clicks on elements carrying data-trk (set in CrocoBuilder) and the availability calendar's bac:book event become Matomo events (category Navigation).
 
 Updates are delivered from GitHub Releases (Plugin Update Checker). A dev site can follow the development branch with:
 
   define( 'PAPOUNAN_SITE_UPDATE_CHANNEL', 'development' );
 
 == Changelog ==
+
+= 0.1.7 =
+* New: click-tracking module. One deferred script on every front-end page turns clicks (and middle-clicks) on elements with data-trk="<placement>" into Matomo events Navigation / vers-reservation (or data-trk-action) / "<placement> · <room slug>", and the calendar's bac:book event into "calendrier · <room slug>". The room slug is the post_name, output as the body class papounan-room-<slug> on room pages: the same in every language and the same as the booking engine's events. Values other than [a-z0-9-] are ignored; nothing happens when Matomo is blocked; navigation is never delayed (Matomo sends with sendBeacon). Debug: localStorage pap.analytics.debug = 1.
 
 = 0.1.6 =
 * New: language-switcher module. TranslatePress flags in [language-switcher] get alt = language name (with lang) instead of alt="" role="presentation", and the visible name is aria-hidden, so screen readers hear it once. Clears SEOPress's "no alt text" warning on every page.
