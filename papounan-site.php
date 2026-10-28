@@ -3,7 +3,7 @@
  * Plugin Name:       Papounan Site
  * Plugin URI:        https://github.com/jacamac/papounan2027-code
  * Description:       Site-specific features for chateaupapounan.fr (Château Papounan): room gallery, language switcher fixes and other modules formerly in the hello-elementor-child theme.
- * Version:           0.1.7
+ * Version:           0.1.8
  * Requires at least: 6.6
  * Requires PHP:      7.4
  * Author:            Jacques Leisy
@@ -19,7 +19,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'PAPOUNAN_SITE_VERSION', '0.1.7' );
+define( 'PAPOUNAN_SITE_VERSION', '0.1.8' );
 define( 'PAPOUNAN_SITE_DIR', plugin_dir_path( __FILE__ ) );
 define( 'PAPOUNAN_SITE_URL', plugin_dir_url( __FILE__ ) );
 

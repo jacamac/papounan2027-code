@@ -3,8 +3,8 @@
  * Click tracking: Matomo events from `data-trk` attributes.
  *
  * In CrocoBuilder a trackable element only carries `data-trk="<placement>"`
- * (and optionally `data-trk-action="<action>"`); click-tracking.js, loaded on
- * every front-end page, turns clicks on it into
+ * (and optionally `data-trk-action`, `data-trk-cat`, `data-trk-ctx`);
+ * click-tracking.js, loaded on every front-end page, turns clicks on it into
  *   _paq.push( [ 'trackEvent', 'Navigation', <action>, <placement> · <room slug> ] )
  * It also turns the availability calendar's `bac:book` event into
  * `calendrier · <room slug>`. No list of buttons here, no JS in the builder.

@@ -44,9 +44,9 @@ Lightbox: native `<dialog>` (focus trap and Esc handled by the browser), previou
 
 | | |
 |---|---|
-| Category | `Navigation` (separate from the booking engine's `Réservation`) |
+| Category | the element's `data-trk-cat` through a whitelist (`navigation` → `Navigation`, `guide` → `Guide`), else `Navigation` (separate from the booking engine's `Réservation`) |
 | Action | the element's `data-trk-action`, else `vers-reservation` |
-| Name | `<data-trk> · <room slug>` on a room page (`prix · chambre-domeyne`), `<data-trk>` alone elsewhere |
+| Name | `<data-trk> · <room slug>` on a room page (`prix · chambre-domeyne`), `<data-trk>` alone elsewhere; then ` · <data-trk-ctx>` when the element carries one (`carte-lieu · saint-emilion`) |
 | Value | none |
 
 The room slug is the room's `post_name`, output by PHP as the body class `papounan-room-<slug>` on single `chambre` pages: the same in every language (`/en/rooms/…`, `/de/zimmer/…` are the same post) and the same value the booking engine sends in `chambre-demandee` and `resultat` (e.g. `suite-l-estuaire`), so both can be matched in segments.
@@ -61,6 +61,18 @@ The room slug is the room's `post_name`, output by PHP as the body class `papoun
 | `header` | every page | planned: header « Réserver en direct » button |
 
 **Add one:** in CrocoBuilder, give the element the attribute `data-trk` with a new name (only `a-z`, `0-9`, `-`; anything else is ignored), and `data-trk-action` if it isn't a link to the booking page. Add it to the table above. Nothing to change in the plugin.
+
+`data-trk-cat` and `data-trk-ctx` are read on the clicked `[data-trk]` element itself, never on an ancestor (the planner clones its cards into a dialog). An unknown category falls back to `Navigation`; an invalid context is dropped.
+
+**From another plugin** (no `_paq` in your code): dispatch a `papounan:track` event on `document`.
+
+```js
+document.dispatchEvent( new CustomEvent( 'papounan:track', {
+	detail: { cat: 'guide', action: 'filtre', name: 'vignobles', ctx: 'medoc' },
+} ) );
+```
+
+`action` and `name` are required and follow the same rule as `data-trk`; `cat` goes through the same whitelist; `ctx` is optional. Invalid input is silently ignored. The event goes through the same path as clicks (room suffix, then context; debug switch below). First user: the planner's guide pages.
 
 Safeguards: the script never prevents or delays the navigation (Matomo sends the event with `sendBeacon`), does nothing when Matomo is blocked or not loaded (`window._paq` missing), and never throws.
 

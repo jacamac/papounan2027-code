@@ -4,7 +4,7 @@ Tags: chateaupapounan
 Requires at least: 6.6
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 0.1.7
+Stable tag: 0.1.8
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,6 +23,9 @@ Updates are delivered from GitHub Releases (Plugin Update Checker). A dev site c
   define( 'PAPOUNAN_SITE_UPDATE_CHANNEL', 'development' );
 
 == Changelog ==
+
+= 0.1.8 =
+* New: click-tracking accepts other plugins' events. Optional data-trk-cat on [data-trk] elements, whitelisted (navigation → Navigation, guide → Guide; anything else → Navigation), and optional data-trk-ctx, appended to the name as " · <ctx>" after the room slug; both are read on the clicked element itself. Other plugins can dispatch a papounan:track CustomEvent on document with detail { cat, action, name, ctx }: same validation and same path as clicks (debug switch included), invalid input silently ignored. First user: the planner's guide pages. Elements without the new attributes are tracked exactly as before.
 
 = 0.1.7 =
 * New: click-tracking module. One deferred script on every front-end page turns clicks (and middle-clicks) on elements with data-trk="<placement>" into Matomo events Navigation / vers-reservation (or data-trk-action) / "<placement> · <room slug>", and the calendar's bac:book event into "calendrier · <room slug>". The room slug is the post_name, output as the body class papounan-room-<slug> on room pages: the same in every language and the same as the booking engine's events. Values other than [a-z0-9-] are ignored; nothing happens when Matomo is blocked; navigation is never delayed (Matomo sends with sendBeacon). Debug: localStorage pap.analytics.debug = 1.
