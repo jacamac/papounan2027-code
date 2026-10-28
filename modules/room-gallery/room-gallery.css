@@ -18,7 +18,7 @@
 	min-height: 7.5rem;
 	overflow: hidden;
 	border-radius: var(--radius-md, 10px);
-	background-color: var(--color-surface-muted, #f1f6f7);
+	background-color: var(--color-surface-muted, #f4eee3);
 }
 
 .room-gallery__link {
@@ -28,7 +28,7 @@
 }
 
 .room-gallery__link:focus-visible {
-	outline: 2px solid var(--color-accent-strong, #2e7a85);
+	outline: 2px solid var(--color-accent-strong, #7a2c3a);
 	outline-offset: 2px;
 }
 
@@ -82,7 +82,7 @@
 	padding: var(--space-m, 24px);
 	border: 0;
 	background: transparent;
-	color: var(--color-ink-inverse, #f8fafb);
+	color: var(--color-ink-inverse, #fbf8f2);
 }
 
 .room-gallery__dialog[open] {
@@ -93,7 +93,7 @@
 }
 
 .room-gallery__dialog::backdrop {
-	background: rgb(26 26 26 / 92%);
+	background: var(--color-overlay-strong, rgb(26 26 26 / 92%));
 }
 
 .room-gallery__stage {
@@ -133,13 +133,13 @@
 	font-size: 1.75rem;
 	line-height: 1;
 	color: inherit;
-	background: rgb(255 255 255 / 12%);
+	background: var(--color-glass, rgb(255 255 255 / 12%));
 	cursor: pointer;
 }
 
 .room-gallery__close:hover,
 .room-gallery__nav:hover {
-	background: rgb(255 255 255 / 24%);
+	background: var(--color-glass-strong, rgb(255 255 255 / 24%));
 }
 
 .room-gallery__close:focus-visible,
@@ -150,6 +150,6 @@
 
 .room-gallery-notice {
 	padding: var(--space-s, 16px);
-	border: 1px dashed var(--color-border, #d5e1e5);
+	border: 1px dashed var(--color-border, #ddd3c5);
 	font-size: var(--text-small, 1rem);
 }
