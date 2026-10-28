@@ -11,6 +11,7 @@ Related repos: **papounan2027-theme** (minimal theme) and **papounan2027-builder
 | `room-gallery` | `[room_gallery]` | ACF repeater `pictures` (`picture`, `col_span`, `row_span`) as a 12-column grid; native `<dialog>` lightbox; one photo per row on mobile |
 | `language-switcher` | filter on `[language-switcher]` | TranslatePress flags: `alt` = language name + `lang`, `role` removed; name span `aria-hidden`. Language list in `papounan_langsw_languages()` — update when a language is added |
 | `click-tracking` | `data-trk` attributes → Matomo events | One deferred script on every front-end page; body class `papounan-room-<slug>` on room pages. See below |
+| `rating-schema` | JSON-LD `AggregateRating` per rating platform | Front page only; one switch per platform in the `review_platform` CPT. See below |
 
 Still to port from the old child theme (`papounan-widgets`): `chambre-booking`, `chateau-distance`, the TranslatePress capability filter, and a decision on `update-thumbnail`.
 
@@ -77,6 +78,22 @@ document.dispatchEvent( new CustomEvent( 'papounan:track', {
 Safeguards: the script never prevents or delays the navigation (Matomo sends the event with `sendBeacon`), does nothing when Matomo is blocked or not loaded (`window._paq` missing), and never throws.
 
 **Debug:** `localStorage['pap.analytics.debug'] = '1'` (same switch as the booking engine) prints each event with `console.debug('[papounan tracking]', …)`.
+
+### Rating schema (`AggregateRating`)
+
+Each **Plateforme d'avis** (`review_platform`) entry whose ACF true/false **« Publier dans les données structurées »** (`show_in_schema`, default off) is on becomes one JSON-LD `AggregateRating` node, printed in `<head>` on the front page (every language):
+
+| Property | Source |
+|---|---|
+| `itemReviewed` | `{ "@id": "https://chateaupapounan.fr/#lodging" }`, SEOPress PRO's BedAndBreakfast node (constant `PAPOUNAN_RATING_SCHEMA_ITEM_ID`: SEOPress exposes no API for it, update it if the @id changes) |
+| `author` | `Organization`: entry title; `url` = `profile_url` when set |
+| `ratingValue` / `bestRating` / `ratingCount` | `rating` / `rating_scale` / `review_count`, exactly as stored (each platform's own scale, no conversion, no average) |
+
+An entry with a missing or invalid value (no title, rating not a number, rating above the scale, no count) is skipped whole. The nodes are separate and only point to SEOPress's node by `@id`: SEOPress's own schema is untouched. There is no `reviewCount` (the CPT has a single count).
+
+**Why front page only:** the badges are also on Témoignages, Chambres and every room page, but they come from CrocoBuilder query loops (some with the query cache on), so whether one was rendered can't be detected reliably server-side; Témoignages and Chambres also have no `#lodging` node to point to.
+
+**Switch a platform on or off:** edit the entry in WordPress, no code change. Then purge the page cache (Cloudflare) so the homepage is regenerated.
 
 ## Releases and updates
 

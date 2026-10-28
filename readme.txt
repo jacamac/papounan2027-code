@@ -4,7 +4,7 @@ Tags: chateaupapounan
 Requires at least: 6.6
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 0.1.8
+Stable tag: 0.1.9
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,12 +17,16 @@ Modules (one folder each in modules/):
 * Room gallery — [room_gallery] shortcode: the room's ACF "pictures" repeater as a 12-column grid with a native lightbox.
 * Language switcher — gives the TranslatePress flags a real alt (the language name) and hides the duplicate name from screen readers.
 * Click tracking — clicks on elements carrying data-trk (set in CrocoBuilder) and the availability calendar's bac:book event become Matomo events (category Navigation).
+* Rating schema — each review platform switched on (« Publier dans les données structurées ») is published on the front page as a JSON-LD AggregateRating for SEOPress's #lodging node.
 
 Updates are delivered from GitHub Releases (Plugin Update Checker). A dev site can follow the development branch with:
 
   define( 'PAPOUNAN_SITE_UPDATE_CHANNEL', 'development' );
 
 == Changelog ==
+
+= 0.1.9 =
+* New: rating-schema module. On the front page, one JSON-LD AggregateRating node per review_platform entry whose ACF true/false show_in_schema (« Publier dans les données structurées », default off) is on: itemReviewed = SEOPress PRO's BedAndBreakfast node by @id (https://chateaupapounan.fr/#lodging), author = Organization with the platform name and profile_url, ratingValue / bestRating / ratingCount from rating / rating_scale / review_count exactly as stored (each platform's own scale, no conversion or average). An entry with a missing or invalid value is skipped whole; nothing is printed when no platform is on. SEOPress's own schema is untouched.
 
 = 0.1.8 =
 * New: click-tracking accepts other plugins' events. Optional data-trk-cat on [data-trk] elements, whitelisted (navigation → Navigation, guide → Guide; anything else → Navigation), and optional data-trk-ctx, appended to the name as " · <ctx>" after the room slug; both are read on the clicked element itself. Other plugins can dispatch a papounan:track CustomEvent on document with detail { cat, action, name, ctx }: same validation and same path as clicks (debug switch included), invalid input silently ignored. First user: the planner's guide pages. Elements without the new attributes are tracked exactly as before.
