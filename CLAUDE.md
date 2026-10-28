@@ -16,7 +16,7 @@ Site plugin for chateaupapounan.fr (WordPress + CrocoBuilder + ACF PRO). Owner: 
 ## Conventions
 - PHP 7.4+, WordPress Coding Standards (WordPress-Extra). Prefix globals `papounan_site_` / `papounan_<module>_` / `PAPOUNAN_`. Text domain `papounan-site`.
 - Escape on output, sanitise on input; shortcodes return strings.
-- CSS: BEM, design-system tokens with fallbacks (`var(--space-xs, 10px)`), no `!important`, no media queries unless documented in the module header.
+- CSS: BEM, design-system tokens with neutral, generic fallbacks (`var(--space-xs, 0.625rem)`, `var(--color-border, #ccc)`), never a font name or a copy of the site's current value (fonts: `inherit` or `var(--font-body, sans-serif)` / `var(--font-heading, serif)`; titles regular weight, not uppercase), no `!important`, no media queries unless documented in the module header.
 - JS: vanilla, no jQuery, no dependencies; progressive enhancement.
 - CrocoBuilder: shortcodes go in a Text element with "Process shortcodes on frontend". Inside CrocoBuilder templates `get_the_ID()` may not be the current post — use `get_queried_object_id()` on singular views.
 

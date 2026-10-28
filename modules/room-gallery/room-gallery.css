@@ -7,7 +7,7 @@
 .room-gallery {
 	display: grid;
 	grid-template-columns: repeat(12, minmax(0, 1fr));
-	gap: var(--space-xs, 10px);
+	gap: var(--space-xs, 0.625rem);
 	margin: 0;
 }
 
@@ -17,8 +17,8 @@
 	margin: 0;
 	min-height: 7.5rem;
 	overflow: hidden;
-	border-radius: var(--radius-md, 10px);
-	background-color: var(--color-surface-muted, #f1f6f7);
+	border-radius: var(--radius-md, 4px);
+	background-color: var(--color-surface-muted, #fff);
 }
 
 .room-gallery__link {
@@ -28,7 +28,7 @@
 }
 
 .room-gallery__link:focus-visible {
-	outline: 2px solid var(--color-accent-strong, #2e7a85);
+	outline: 2px solid var(--color-accent-strong, currentcolor);
 	outline-offset: 2px;
 }
 
@@ -79,21 +79,21 @@
 	height: 100dvh;
 	max-height: 100dvh;
 	margin: 0;
-	padding: var(--space-m, 24px);
+	padding: var(--space-m, 1.25rem);
 	border: 0;
 	background: transparent;
-	color: var(--color-ink-inverse, #f8fafb);
+	color: var(--color-ink-inverse, #fff);
 }
 
 .room-gallery__dialog[open] {
 	display: grid;
 	grid-template-columns: auto minmax(0, 1fr) auto;
 	align-items: center;
-	gap: var(--space-xs, 10px);
+	gap: var(--space-xs, 0.625rem);
 }
 
 .room-gallery__dialog::backdrop {
-	background: rgb(26 26 26 / 92%);
+	background: var(--color-overlay-strong, rgb(0 0 0 / 90%));
 }
 
 .room-gallery__stage {
@@ -101,7 +101,7 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: var(--space-xs, 10px);
+	gap: var(--space-xs, 0.625rem);
 	min-width: 0;
 }
 
@@ -120,8 +120,8 @@
 
 .room-gallery__close {
 	position: absolute;
-	top: var(--space-s, 16px);
-	right: var(--space-s, 16px);
+	top: var(--space-s, 1rem);
+	right: var(--space-s, 1rem);
 }
 
 .room-gallery__close,
@@ -133,13 +133,13 @@
 	font-size: 1.75rem;
 	line-height: 1;
 	color: inherit;
-	background: rgb(255 255 255 / 12%);
+	background: var(--color-glass, rgb(255 255 255 / 12%));
 	cursor: pointer;
 }
 
 .room-gallery__close:hover,
 .room-gallery__nav:hover {
-	background: rgb(255 255 255 / 24%);
+	background: var(--color-glass-strong, rgb(255 255 255 / 24%));
 }
 
 .room-gallery__close:focus-visible,
@@ -149,7 +149,7 @@
 }
 
 .room-gallery-notice {
-	padding: var(--space-s, 16px);
-	border: 1px dashed var(--color-border, #d5e1e5);
+	padding: var(--space-s, 1rem);
+	border: 1px dashed var(--color-border, #ccc);
 	font-size: var(--text-small, 1rem);
 }
