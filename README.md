@@ -11,6 +11,7 @@ Related repos: **papounan2027-theme** (minimal theme) and **papounan2027-builder
 | `room-gallery` | `[room_gallery]` | ACF repeater `pictures` (`picture`, `col_span`, `row_span`) as a 12-column grid; native `<dialog>` lightbox; one photo per row on mobile |
 | `language-switcher` | filter on `[language-switcher]` | TranslatePress flags: `alt` = language name + `lang`, `role` removed; name span `aria-hidden`. Language list in `papounan_langsw_languages()` — update when a language is added |
 | `click-tracking` | `data-trk` attributes → Matomo events | One deferred script on every front-end page; body class `papounan-room-<slug>` on room pages. See below |
+| `rating-schema` | JSON-LD `AggregateRating` per rating platform | Front page only; one switch per platform in the `review_platform` CPT. See below |
 
 Still to port from the old child theme (`papounan-widgets`): `chambre-booking`, `chateau-distance`, the TranslatePress capability filter, and a decision on `update-thumbnail`.
 
@@ -44,9 +45,9 @@ Lightbox: native `<dialog>` (focus trap and Esc handled by the browser), previou
 
 | | |
 |---|---|
-| Category | `Navigation` (separate from the booking engine's `Réservation`) |
+| Category | the element's `data-trk-cat` through a whitelist (`navigation` → `Navigation`, `guide` → `Guide`), else `Navigation` (separate from the booking engine's `Réservation`) |
 | Action | the element's `data-trk-action`, else `vers-reservation` |
-| Name | `<data-trk> · <room slug>` on a room page (`prix · chambre-domeyne`), `<data-trk>` alone elsewhere |
+| Name | `<data-trk> · <room slug>` on a room page (`prix · chambre-domeyne`), `<data-trk>` alone elsewhere; then ` · <data-trk-ctx>` when the element carries one (`carte-lieu · saint-emilion`) |
 | Value | none |
 
 The room slug is the room's `post_name`, output by PHP as the body class `papounan-room-<slug>` on single `chambre` pages: the same in every language (`/en/rooms/…`, `/de/zimmer/…` are the same post) and the same value the booking engine sends in `chambre-demandee` and `resultat` (e.g. `suite-l-estuaire`), so both can be matched in segments.
@@ -62,9 +63,37 @@ The room slug is the room's `post_name`, output by PHP as the body class `papoun
 
 **Add one:** in CrocoBuilder, give the element the attribute `data-trk` with a new name (only `a-z`, `0-9`, `-`; anything else is ignored), and `data-trk-action` if it isn't a link to the booking page. Add it to the table above. Nothing to change in the plugin.
 
+`data-trk-cat` and `data-trk-ctx` are read on the clicked `[data-trk]` element itself, never on an ancestor (the planner clones its cards into a dialog). An unknown category falls back to `Navigation`; an invalid context is dropped.
+
+**From another plugin** (no `_paq` in your code): dispatch a `papounan:track` event on `document`.
+
+```js
+document.dispatchEvent( new CustomEvent( 'papounan:track', {
+	detail: { cat: 'guide', action: 'filtre', name: 'vignobles', ctx: 'medoc' },
+} ) );
+```
+
+`action` and `name` are required and follow the same rule as `data-trk`; `cat` goes through the same whitelist; `ctx` is optional. Invalid input is silently ignored. The event goes through the same path as clicks (room suffix, then context; debug switch below). First user: the planner's guide pages.
+
 Safeguards: the script never prevents or delays the navigation (Matomo sends the event with `sendBeacon`), does nothing when Matomo is blocked or not loaded (`window._paq` missing), and never throws.
 
 **Debug:** `localStorage['pap.analytics.debug'] = '1'` (same switch as the booking engine) prints each event with `console.debug('[papounan tracking]', …)`.
+
+### Rating schema (`AggregateRating`)
+
+Each **Plateforme d'avis** (`review_platform`) entry whose ACF true/false **« Publier dans les données structurées »** (`show_in_schema`, default off) is on becomes one JSON-LD `AggregateRating` node, printed in `<head>` on the front page (every language):
+
+| Property | Source |
+|---|---|
+| `itemReviewed` | `{ "@id": "https://chateaupapounan.fr/#lodging" }`, SEOPress PRO's BedAndBreakfast node (constant `PAPOUNAN_RATING_SCHEMA_ITEM_ID`: SEOPress exposes no API for it, update it if the @id changes) |
+| `author` | `Organization`: entry title; `url` = `profile_url` when set |
+| `ratingValue` / `bestRating` / `ratingCount` | `rating` / `rating_scale` / `review_count`, exactly as stored (each platform's own scale, no conversion, no average) |
+
+An entry with a missing or invalid value (no title, rating not a number, rating above the scale, no count) is skipped whole. The nodes are separate and only point to SEOPress's node by `@id`: SEOPress's own schema is untouched. There is no `reviewCount` (the CPT has a single count).
+
+**Why front page only:** the badges are also on Témoignages, Chambres and every room page, but they come from CrocoBuilder query loops (some with the query cache on), so whether one was rendered can't be detected reliably server-side; Témoignages and Chambres also have no `#lodging` node to point to.
+
+**Switch a platform on or off:** edit the entry in WordPress, no code change. Then purge the page cache (Cloudflare) so the homepage is regenerated.
 
 ## Releases and updates
 
