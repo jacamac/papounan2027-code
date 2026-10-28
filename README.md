@@ -125,7 +125,7 @@ npm run lint              # JS + CSS
 bash tools/build-zip.sh   # build/papounan-site.zip, as CI does
 ```
 
-Conventions: BEM class names; design-system tokens (`--color-*`, `--space-*`, …) with fallbacks; no media queries except documented exceptions; no jQuery or third-party JavaScript; never edit files on the server.
+Conventions: BEM class names; design-system tokens (`--color-*`, `--space-*`, …) with neutral, generic fallbacks (never a font name or a copy of the site’s value); no media queries except documented exceptions; no jQuery or third-party JavaScript; never edit files on the server.
 
 ## Design system snapshot
 

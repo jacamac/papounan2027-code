@@ -4,7 +4,7 @@ Tags: chateaupapounan
 Requires at least: 6.6
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 0.1.9
+Stable tag: 0.1.10
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -24,6 +24,10 @@ Updates are delivered from GitHub Releases (Plugin Update Checker). A dev site c
   define( 'PAPOUNAN_SITE_UPDATE_CHANNEL', 'development' );
 
 == Changelog ==
+
+= 0.1.10 =
+* Tweak: typography « Pierre douce ». Every room-gallery fallback is now neutral and generic instead of a copy of the site's value, so a palette or spacing change on the site never needs a plugin update: spacing in plain rem (`--space-xs` 0.625rem, `--space-s` 1rem, `--space-m` 1.25rem instead of 24px), `--radius-md` 4px, `--color-surface-muted` #fff, `--color-accent-strong` currentcolor, `--color-ink-inverse` #fff, `--color-overlay-strong` rgb(0 0 0 / 90%), `--color-border` #ccc. No font name in the CSS. No change where the site defines the tokens.
+* Tweak: room-gallery uses the design-system overlay and glass tokens. The lightbox backdrop reads --color-overlay-strong and the close / previous / next buttons --color-glass (hover --color-glass-strong), each with the previous value as fallback. The fallbacks of --color-surface-muted, --color-accent-strong, --color-ink-inverse and --color-border now match the current Médoc palette instead of the old teal values. No markup or behaviour change.
 
 = 0.1.9 =
 * New: rating-schema module. On the front page, one JSON-LD AggregateRating node per review_platform entry whose ACF true/false show_in_schema (« Publier dans les données structurées », default off) is on: itemReviewed = SEOPress PRO's BedAndBreakfast node by @id (https://chateaupapounan.fr/#lodging), author = Organization with the platform name and profile_url, ratingValue / bestRating / ratingCount from rating / rating_scale / review_count exactly as stored (each platform's own scale, no conversion or average). An entry with a missing or invalid value is skipped whole; nothing is printed when no platform is on. SEOPress's own schema is untouched.
