@@ -4,7 +4,7 @@ Tags: chateaupapounan
 Requires at least: 6.6
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 0.1.10
+Stable tag: 0.1.11
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,12 +18,16 @@ Modules (one folder each in modules/):
 * Language switcher — gives the TranslatePress flags a real alt (the language name) and hides the duplicate name from screen readers.
 * Click tracking — clicks on elements carrying data-trk (set in CrocoBuilder) and the availability calendar's bac:book event become Matomo events (category Navigation).
 * Rating schema — each review platform switched on (« Publier dans les données structurées ») is published on the front page as a JSON-LD AggregateRating for SEOPress's #lodging node.
+* Media replace — REST routes papounan/v1/media/<id>/replace and /revert for the photo service: replace an image's file in place (same id, file name and URL), with a backup and a revert.
 
 Updates are delivered from GitHub Releases (Plugin Update Checker). A dev site can follow the development branch with:
 
   define( 'PAPOUNAN_SITE_UPDATE_CHANNEL', 'development' );
 
 == Changelog ==
+
+= 0.1.11 =
+* New: media-replace module. POST /wp-json/papounan/v1/media/<id>/replace (multipart file, dry_run default true, optimize default true) replaces an image attachment's file in place: the id, _wp_attached_file and the URL never change. JPEG, PNG or WebP up to 20 MB, of the same type as the current file (else 409); same bytes (sha256) = nothing done. Backup of the main file, the unscaled original, every sub-size and the metadata in uploads/papounan-replaced/<id>/<Ymd-His>/ first; fires wp_handle_replace so ShortPixel drops its stale data; sub-sizes made with the image editor (core names, no -scaled / -rotated copy, ShortPixel's upload hooks not triggered); old sub-sizes deleted; backup put back if a step fails; ShortPixel re-optimization enqueued through its shortpixel/optimize-media ability (not for PNG). POST …/revert (dry_run default true) undoes the latest replace. Requires upload_files and edit_post on the attachment. Responses carry cache_hint URLs; nothing is purged.
 
 = 0.1.10 =
 * Tweak: typography « Pierre douce ». Every room-gallery fallback is now neutral and generic instead of a copy of the site's value, so a palette or spacing change on the site never needs a plugin update: spacing in plain rem (`--space-xs` 0.625rem, `--space-s` 1rem, `--space-m` 1.25rem instead of 24px), `--radius-md` 4px, `--color-surface-muted` #fff, `--color-accent-strong` currentcolor, `--color-ink-inverse` #fff, `--color-overlay-strong` rgb(0 0 0 / 90%), `--color-border` #ccc. No font name in the CSS. No change where the site defines the tokens.

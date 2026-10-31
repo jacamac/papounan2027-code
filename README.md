@@ -12,6 +12,7 @@ Related repos: **papounan2027-theme** (minimal theme) and **papounan2027-builder
 | `language-switcher` | filter on `[language-switcher]` | TranslatePress flags: `alt` = language name + `lang`, `role` removed; name span `aria-hidden`. Language list in `papounan_langsw_languages()` — update when a language is added |
 | `click-tracking` | `data-trk` attributes → Matomo events | One deferred script on every front-end page; body class `papounan-room-<slug>` on room pages. See below |
 | `rating-schema` | JSON-LD `AggregateRating` per rating platform | Front page only; one switch per platform in the `review_platform` CPT. See below |
+| `media-replace` | REST `papounan/v1/media/<id>/replace` and `/revert` | Replaces an image attachment's file in place: same id, file name and URL. Backup in `uploads/papounan-replaced/`. See below |
 
 Still to port from the old child theme (`papounan-widgets`): `chambre-booking`, `chateau-distance`, the TranslatePress capability filter, and a decision on `update-thumbnail`.
 
@@ -94,6 +95,34 @@ An entry with a missing or invalid value (no title, rating not a number, rating 
 **Why front page only:** the badges are also on Témoignages, Chambres and every room page, but they come from CrocoBuilder query loops (some with the query cache on), so whether one was rendered can't be detected reliably server-side; Témoignages and Chambres also have no `#lodging` node to point to.
 
 **Switch a platform on or off:** edit the entry in WordPress, no code change. Then purge the page cache (Cloudflare) so the homepage is regenerated.
+
+### Media replace (REST)
+
+For the photo service (papounan-photos, on the NAS): put a better rendition of a library photo in place of the current file. **The file is never renamed**: the attachment id, `_wp_attached_file` and the URL stay the same, so every page and indexed image URL keeps working. A new photo with an SEO file name is a normal upload (`POST /wp/v2/media`), not this route; alt, title, caption and description are set through `POST /wp/v2/media/<id>` and are not touched here.
+
+Authentication: application password of a dedicated user with `upload_files` who can edit the attachment (an Editor also passes ShortPixel's `edit_others_posts` check; an Author does not, and the response then says `shortpixel.status: "error"`). The password is never in this repo.
+
+| Route (POST) | Parameters | |
+|---|---|---|
+| `/wp-json/papounan/v1/media/<id>/replace` | multipart `file`; `dry_run` (default `true`); `optimize` (default `true`) | `dry_run=true` validates and reports what would change, writes nothing |
+| `/wp-json/papounan/v1/media/<id>/revert` | `dry_run` (default `true`); `optimize` (default `false`) | Undoes the latest replace not yet reverted (a stack: each revert undoes one replace) |
+
+**Accepted:** JPEG, PNG, WebP up to 20 MB (`PAPOUNAN_MEDIA_REPLACE_MAX_BYTES`; PHP's `upload_max_filesize` may be lower), a real image (type read from the content), and **the same type as the current file**, otherwise 409 (a JPEG cannot replace a WebP). SVG, GIF and AVIF are refused. Same bytes as the current file (sha256): nothing is done, `identical: true`.
+
+**What a replace does:**
+
+1. Backs up the main file, the unscaled original (`-scaled` attachments) and every sub-size, with the stored metadata, in `uploads/papounan-replaced/<id>/<Ymd-His>/` (`manifest.json`: user, time, sha256 of each file).
+2. Fires `wp_handle_replace` (Enable Media Replace's action). ShortPixel (verified in 6.6.1, `handleReplaceHook` → `onDelete()`) then drops its data for the image (optimization record, its own backup of the original, `.webp` / `.avif` copies, queue entry) and deletes the image files, which are in our backup and written again.
+3. Writes the new bytes to the same path (and to the unscaled original, if any), makes the sub-sizes with the image editor (core's names, `<original>-<w>x<h>.<ext>`, after the `intermediate_image_sizes_advanced` filter), updates the metadata, deletes the old sub-sizes that no longer exist. If a step fails, the backup is put back (500 with `restored: true`).
+4. ShortPixel: enqueues the image with the `shortpixel/optimize-media` ability (`process: false`; ShortPixel processes its queue later, or the caller runs `shortpixel/run-queue`). Not for PNG: ShortPixel's PNG → JPG conversion would rename the file.
+
+Sub-sizes are deliberately not made with `wp_generate_attachment_metadata()` / `wp_update_image_subsizes()`: they apply the `wp_generate_attachment_metadata` filter, where ShortPixel converts PNGs and runs its AI SEO (alt text, file name). No big-image scaling or EXIF rotation either (both save a `-scaled` / `-rotated` copy and change the URL); sub-sizes are made upright, browsers rotate the main file. Send renditions of at most 2560 px.
+
+**Response** (JSON): `id`, `dry_run`, `identical`, `url` (unchanged), `file`, `mime`, `old` / `new` (`width`, `height`, `filesize`, `sha256`), `original_image`, `sub_sizes.regenerated` (size → file; predicted on a dry run) and `sub_sizes.removed`, `backup` (relative to uploads), `shortpixel` (`status` queued / skipped / unavailable / error, `message`), `cache_hint` (`url` and `urls`: main, original and every old and new sub-size, to purge in the Copilhost / Cloudflare cache; nothing is purged here), `warnings` (dimensions change → some sub-size names change: a page that hard-codes an old sub-size URL breaks; aspect ratio change). Errors: 400 no file, 404 not an image attachment, 409 type mismatch / locked / file moved, 413 too large, 415 not an accepted image.
+
+**Revert:** checks every backup file against its sha256 and that `_wp_attached_file` did not change, backs up the current state (`pre-revert`), fires `wp_handle_replace`, puts back the files and the metadata, deletes the sub-sizes of the replaced rendition and marks the backup reverted. ShortPixel's data for the image is gone after a replace (see step 2); `optimize=true` re-enqueues it.
+
+Nothing ever deletes `uploads/papounan-replaced/`: clean it by hand once a replace is confirmed. One replace or revert at a time per attachment (lock folder `.lock`, taken over after 10 minutes).
 
 ## Releases and updates
 
